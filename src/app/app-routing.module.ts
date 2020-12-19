@@ -1,25 +1,19 @@
-import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { NgModule } from '@angular/core'
+
 import { RouterModule, Routes } from "@angular/router";
-import { LoginComponent } from './auth/login/login.component';
-import { RegisterComponent } from './auth/register/register.component';
-import { ProgressComponent } from './pages/progress/progress.component';
-import { Grafica1Component } from './pages/grafica1/grafica1.component';
-import { NotfoundComponent } from './pages/notfound/notfound.component';
-import { PagesComponent } from './pages/pages.component';
+import { NotfoundComponent } from './auth/notfound/notfound.component';
+import { PagesRoutingModule } from './pages/pages.routing';
+import { AuthRoutingModule } from './auth/auth.routing';
+
 const routes: Routes = [
-  { path: '',
-    component: PagesComponent,
-    children: [
-      {path: 'dashboard', component: DashboardComponent},
-      {path: 'progress', component: ProgressComponent},
-      {path: 'grafica1', component: Grafica1Component},
-    ]
-  },
-  {path: 'login', component: LoginComponent},
-  {path: 'register', component: RegisterComponent},
-  {path: '', redirectTo: '/dashboard', pathMatch: 'full'},
-  {path: '**', component: NotfoundComponent}
+  { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+  { path: '**', component: NotfoundComponent }
+
+  //{ path: 'path/:routeParam', component: MyComponent },
+  //{ path: 'staticPath', component: ... },
+  //{ path: '**', component: ... },
+  //{ path: 'oldPath', redirectTo: '/staticPath' },
+  //{ path: ..., component: ..., data: { message: 'Custom' }
 ]
 
 @NgModule({
@@ -27,7 +21,9 @@ const routes: Routes = [
 
   ],
   imports: [
-    RouterModule.forRoot( routes )
+    PagesRoutingModule,
+    AuthRoutingModule,
+    RouterModule.forRoot(routes)
   ],
   exports: [RouterModule]
 })
