@@ -73,7 +73,7 @@ html {
   position: relative;
   min-height: 100%;
   background: #ffffff;
-  -webkit-font-smoothing: antialiased;
+  -webkit-font-smoothingl: antialiased;
   -moz-osx-font-smoothing: grayscale; }
 
 a:hover,
@@ -93,7 +93,11 @@ a.link {
 .img-rounded {
   border-radius: 4px; }
 
-html body .mdi:before,
+.pointer{
+  cursor: pointer;
+}
+
+  html body .mdi:before,
 html body .mdi-set {
   line-height: initial; }
 
@@ -2706,7 +2710,7 @@ Form Material page
   background-position: center bottom, center calc(100% - 1px);
   background-repeat: no-repeat;
   background-size: 0 2px, 100% 1px;
-  padding: 0;
+  padding: 10px;
   -webkit-transition: background 0s ease-out 0s;
   -o-transition: background 0s ease-out 0s;
   transition: background 0s ease-out 0s; }

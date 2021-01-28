@@ -22,7 +22,7 @@ export class BreadcrumbsComponent implements OnDestroy{
     );
   }
 
-  getRouteParams(): Subscription<object>{
+  getRouteParams() {
     return this.router.events
       .pipe(
         filter((event: ActivationEnd) => event instanceof ActivationEnd),
