@@ -1,11 +1,14 @@
 import { Injectable, NgZone } from '@angular/core';
-import { environment } from 'src/environments/environment';
-import { RegisterForm } from '../interfaces/register-form.interface';
-import { HttpClient } from '@angular/common/http';
-import { LoginForm } from '../interfaces/login-form.interface';
-import { tap, map, catchError } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
 import { Router } from '@angular/router';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
+import { Observable, of } from 'rxjs';
+import { tap, map, catchError } from 'rxjs/operators';
+
+import { environment } from 'src/environments/environment';
+import { LoginForm } from '../interfaces/login-form.interface';
+import { RegisterForm } from '../interfaces/register-form.interface';
+import { Usuario } from './../models/usuario.model';
 
 declare const gapi;
 
@@ -15,13 +18,28 @@ declare const gapi;
 export class UsuariosService {
 
   public auth2: any;
+  public user: Usuario;
 
   constructor(private http: HttpClient, private router: Router, private ngZone: NgZone) {
     this.googleInit();
   }
+  
+  get headers() {
+    const token = localStorage.getItem('token') || '';
+    return  {
+      headers: {
+        'x-token': token
+      }
+    }
+  }
+
+  get uid(){
+    return this.user.uid;
+  }
 
   googleInit() {
-    return new Promise( resolve => {
+    return new Promise(resolve => {
+      console.log('gapi=>',gapi)
       gapi.load('auth2', () => {
         this.auth2 = gapi.auth2.init({
           client_id: '413358598755-eoqsmmaa5ckajk8i7j68u9ufb850td70.apps.googleusercontent.com',
@@ -33,19 +51,18 @@ export class UsuariosService {
   }
 
   verifyToken(): Observable<boolean> {
-    const token = localStorage.getItem('token') || '';
-    return this.http.get(`${environment.base_url}/login/renew`, {
-      headers: {
-        'x-token': token
-      }
-    }).pipe(
-      tap((res: any) => {
+    return this.http.get(`${environment.base_url}/login/renew`, this.headers).pipe(
+      map((res: any) => {
+        const { name, email, img = '', google, role, id } = res.usuarioDB;
+        this.user = new Usuario(name, email, '', img, google, role, id);
+        this.user.imprimirUsuario();
         localStorage.setItem('token', res.token);
+        return true;
       }),
-      map(
-        (res: any) => res.ok
-      ),
-      catchError((error) => of(false))
+      catchError((error) => {
+        console.log(error);
+        return of(false)
+      })
     )
   }
 
@@ -56,6 +73,14 @@ export class UsuariosService {
           localStorage.setItem('token', res.token);
         })
       );
+  }
+
+  updateUser(data: { name: string, email: string, role: string }) {
+    data = {
+      ...data,
+      role: this.user.role
+    };
+    return this.http.put(`${environment.base_url}/usuarios/${this.uid}`, data, this.headers);
   }
 
   login(formData: LoginForm) {

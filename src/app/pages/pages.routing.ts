@@ -9,6 +9,7 @@ import { AccountSettingsComponent } from './account-settings/account-settings.co
 import { PromesasComponent } from './promesas/promesas.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
 import { AuthGuard } from '../guards/auth.guard';
+import { PerfilComponent } from './perfil/perfil.component';
 
 const routes: Routes = [
     {
@@ -18,6 +19,7 @@ const routes: Routes = [
         children: [
             { path: '', component: DashboardComponent, data: { title: 'Dashboard' } },
             { path: 'progress', component: ProgressComponent, data: { title: 'Progress' } },
+            { path: 'profile', component: PerfilComponent, data: { title: 'Perfil' } },
             { path: 'grafica1', component: Grafica1Component, data: { title: 'Grafica' } },
             { path: 'account-settings', component: AccountSettingsComponent, data: { title: 'Account Setting' } },
             { path: 'promesas', component: PromesasComponent, data: { title: 'Promesas' } },

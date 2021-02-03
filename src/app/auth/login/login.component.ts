@@ -55,6 +55,7 @@ export class LoginComponent implements OnInit {
 
 
   renderButton() {
+    console.log('gapi=>',gapi)
     gapi.signin2.render('my-signin2', {
       'scope': 'profile email',
       'width': 240,

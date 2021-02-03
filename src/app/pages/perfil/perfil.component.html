@@ -1,0 +1,50 @@
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Mi perfil del usuario</h4>
+                <h6 class="card-subtitle">Ajustes</h6>
+                <form class="form p-t-20" [formGroup]="this.profileForm" (ngSubmit)="actualizarPerfil()">
+                    <div class="form-group">
+                        <label for="exampleInputuname">User Name</label>
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="ti-user"></i></div>
+                            <input type="text" class="form-control" id="exampleInputuname" placeholder="Username"
+                                formControlName="name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Email address</label>
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="ti-email"></i></div>
+                            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email"
+                                formControlName="email" readonly="this.usuario.google">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-success btn-block waves-effect waves-light m-r-10"
+                        [disabled]="this.profileForm.invalid">
+                        <i class="ti-save"></i> Guardar Cambios</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Avatar</h4>
+                <h6 class="card-subtitle">Imagen del usuario</h6>
+                <div class="container-image">
+                    <img *ngIf="!this.imagenTemp" class="img-avatar" [src]="usuario.imagenURL" alt="Imagen de perfil" referrerpolicy="no-referrer" >
+                    <img *ngIf="this.imagenTemp" class="img-avatar" [src]="this.imagenTemp" alt="Imagen seleccionada" >
+                </div>
+                <br>
+                <input type="file" name="" id="" (change)='changeImage($event.target.files[0])'>
+                <br>
+                <br>
+                <button type="submit" class="btn btn-success btn-block waves-effect waves-light m-r-10" [disabled]="!imagen" (click)="uploadImage()">
+                    <i class="ti-save"></i> Cambiar Imagen
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
